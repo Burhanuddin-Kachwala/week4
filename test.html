@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Array in LocalStorage</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div>
+    <input type="text" id="inputText" placeholder="Enter item" />
+    <button id="addBtn">Add to Array</button>
+    <button id="printBtn">Print Array</button>
+    <button id="clearBtn">Clear Array</button>
+  </div>
+  <p id="output"></p>
+
+  <script>
+    $(document).ready(function () {
+      // Initialize an empty array or load the array from LocalStorage
+      let dataArray = JSON.parse(localStorage.getItem("dataArray")) || [];
+
+      // Add new item to the array
+      $("#addBtn").click(function () {
+        const item = $("#inputText").val(); // Get the input value
+        if (item) {
+          dataArray.push(item); // Add the item to the array
+          localStorage.setItem("dataArray", JSON.stringify(dataArray)); // Store the array in LocalStorage
+          $("#inputText").val(""); // Clear the input field
+          
+        } else {
+          alert("Please enter an item.");
+        }
+      });
+
+      // Print the array
+      $("#printBtn").click(function () {
+        const storedArray = JSON.parse(localStorage.getItem("dataArray")) || []; // Retrieve the array from LocalStorage
+        if (storedArray.length > 0) {
+          $("#output").text("Array: " + storedArray.join(", ")); // Display the array
+        } else {
+          $("#output").text("The array is empty.");
+        }
+        console.log(dataArray);
+      });
+
+      // Clear the array from LocalStorage
+      $("#clearBtn").click(function () {
+        localStorage.removeItem("dataArray"); // Remove the array from LocalStorage
+        dataArray = []; // Reset the local array
+        $("#output").text("Array cleared.");
+        alert("Array cleared from LocalStorage!");
+      });
+    });
+  </script>
+</body>
+</html>

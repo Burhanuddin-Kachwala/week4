@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+
+<body>
+    <p id="para">Add Items: </p>
+    <p id="values"></p>
+    <br>
+    <button id="btn" class="btn rounded-lg bg-blue-100 p-2">Click Me</button>
+    <button id="btn2" class="btn rounded-lg bg-red-100 p-2">Hide</button>
+    <button id="btn3" class="btn rounded-lg bg-red-100 p-2">Add Input Field</button>
+    
+    <script>
+         let dataArray = JSON.parse(localStorage.getItem("dataArray")) || [];
+        
+
+        var myTasks =[];
+        $('#btn3').click(function(){
+            $('#para').append('<input type="text" class="border m-2 p-3 " id="inpTxt"> <button class="btn bg-blue-100 p-2" id="btnSubmit">Add</button>');
+        });
+
+        $(document).on('click','#btnSubmit',function(){
+           
+            const value = $('#inpTxt').val();
+            dataArray.push(value);
+            console.log(value);
+            localStorage.setItem("dataArray", JSON.stringify(dataArray)); // Store the array in LocalStorage            
+            console.log(dataArray);
+            renderTasks();
+           
+        });
+        function renderTasks() {
+    $('#values').empty(); // Clear existing tasks
+    dataArray.forEach((element, index) => {
+        $('#values').append(`
+            <span>
+                ${element} 
+                <button class="btn bg-white border-2 border-dashed p-1 m-2" " id="btnComplete">Completed</button>
+                <button class="btn bg-white border-2 border-dashed p-1 m-2" " id="btnDelete">Delete</button>
+            </span><br>
+        `);
+    });
+}
+renderTasks();
+
+        var cnt =0 ;
+        $("#btn").click(function () {
+            $("#para").append("<p class='bg-green-100 p-3'id='para2'>Hello This is Para <button class='btn  bg-white border-2 border-dashed p-1' id='btnComplete'>Completed</button><button class='btn  bg-white border-2 border-dashed p-1' id='btnDelete'>Delete</button></p>").addClass("bg-red-100 text-xl");
+            
+            
+        });
+        $(document).on("click","#btnComplete",function(){
+           const parent = $(this).parent();
+           parent.addClass("line-through");
+        });
+        $(document).on("click","#btnDelete",function(){
+            
+           const parent = $(this).parent();
+           console.log(parent);
+           parent.remove();
+        });
+        $("#btn2").click(function(){
+            cnt++;
+            if(cnt==1){
+                console.log(cnt);
+                $("#para2").hide();
+                
+            }
+            else{
+                console.log(cnt);
+                $("#btn2").text("Show")
+                $("#para2").show()
+                cnt=0
+               
+            }
+           
+           
+        })
+    </script>
+
+</body>
+
+</html>
