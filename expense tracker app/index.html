@@ -57,11 +57,18 @@
 
         <!-- Buttons -->
         <div class="flex justify-between">
-            <button id="addCategory" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">New Category</button>
+            <button id="toggleCategoryInput" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">New Category</button>
             <button id="deleteLocalData" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Delete Data</button>
         </div>
 
-      
+      <!-- New Category Input and Button Container (Initially Hidden) -->
+<div id="newCategoryContainer" style="display: none;">
+    <input type="text" id="newCategory" placeholder="Enter new category" class="py-2 px-4 rounded-lg border">
+    <button id="addCategory" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Add Category</button>
+</div>
+
+
+
 
         
 

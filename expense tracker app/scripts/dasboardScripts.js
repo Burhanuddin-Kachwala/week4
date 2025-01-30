@@ -53,7 +53,7 @@ $(document).ready(function () {
             categories[expense.category].expenses.push({ ...expense, index });
             categories[expense.category].total += parseInt(expense.amount);
         });
-
+        console.log(categories);
         // Display grouped by category
         Object.keys(categories).forEach(category => {
             const categorySection = $('<div></div>').addClass('bg-white p-4 rounded-lg shadow-md');
@@ -159,6 +159,7 @@ $(document).ready(function () {
     }
 
     function deleteExpense(index) {
+        console.log(index)
         // Remove the selected expense
         expenses.splice(index, 1);
 

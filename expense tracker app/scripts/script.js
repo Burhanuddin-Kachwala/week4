@@ -1,12 +1,44 @@
 $(document).ready(function () {
-    let category = ['Food', 'Transport', 'Loans', 'Entertainment', 'Shopping'];
-    
-    // Adding options to select tag
-    category.forEach(function (item) {
-        $('#category').append($('<option>', {
-            value: item,
-            text: item
-        }));
+    let category = JSON.parse(localStorage.getItem('categories')) || ['Food', 'Transport', 'Loans', 'Entertainment', 'Shopping'];
+
+    // Function to update the category select options
+    function updateCategorySelect() {
+        $('#category').empty(); // Clear existing options
+        category.forEach(function (item) {
+            $('#category').append($('<option>', {
+                value: item,
+                text: item
+            }));
+        });
+        console.log(category)
+    }
+
+    // Update the select dropdown initially
+    updateCategorySelect();
+
+    // Toggle the visibility of the New Category input field
+    $('#toggleCategoryInput').click(function () {
+        $('#newCategoryContainer').toggle(); // Toggle visibility of the input container
+    });
+
+    // Adding new category to the list
+    $(document).on('click', '#addCategory', function () {
+        console.log("Add btn clicked")
+        let newCategory = $('#newCategory').val().trim();
+
+        if (newCategory && !category.includes(newCategory)) {
+            category.push(newCategory); // Add new category to the list
+            localStorage.setItem('categories', JSON.stringify(category)); // Store updated categories in localStorage
+            $('#newCategory').val(''); // Clear the input field
+
+            // Update the category dropdown
+            updateCategorySelect();
+            showToast('New category added successfully!', 1);
+        } else if (!newCategory) {
+            showToast('Please enter a category name.', 0);
+        } else {
+            showToast('Category already exists!', 0);
+        }
     });
 
     var total = 0;
@@ -40,7 +72,7 @@ $(document).ready(function () {
 
         // Fix: Ensure correct parsing before storing data
         let expenses = [];
-        let storedData = localStorage.getItem('expenses')||[];
+        let storedData = localStorage.getItem('expenses') || [];
         if (storedData) {
             try {
                 expenses = JSON.parse(storedData);
@@ -91,45 +123,40 @@ $(document).ready(function () {
         }, 3000);
     }
 
-
-    //showing data on button click
+    // Showing data on button click
     $("#showLocalData").click(function () {
         showData();
     });
-    //Deleting data on button click
+
+    // Deleting data on button click
     $("#deleteLocalData").click(function () {
         deleteData();
     });
 
-
-    // function to show data
-
+    // Function to show data
     function showData() {
         let storedData = localStorage.getItem('expenses');
-        
-    
+
         if (!storedData) {
             $('#expenses').text("No data available. Add some expenses!").addClass('text-gray-500 italic');
             return;
-        } 
-    
+        }
+
         // If data exists, format and show it
         let parsedData = JSON.parse(storedData);
         $('#expenses').text(JSON.stringify(parsedData)).removeClass('text-gray-500 italic text-red-500');
     }
-    
 
-    //function to clear form
+    // Function to clear form
     function clearForm() {
         $('#amount').val('');
         $('#description').val('');
         $('#category').val('');
         $('#date').val('');
-
     }
 
-    //function to delete data from localstorage
-    function deleteData(){
+    // Function to delete data from localStorage
+    function deleteData() {
         localStorage.removeItem('expenses');
     }
 });
