@@ -26,10 +26,10 @@ $(document).ready(function () {
     showExpenses();
 
     // Toggle between showing by category or by month
-    toggleViewButton.click(function() {
+    toggleViewButton.click(function () {
         groupByCategory = !groupByCategory;
         showExpenses();
-        toggleViewButton.text(groupByCategory ? 'View Expenses by Month' : 'View Expenses by Category');
+        toggleViewButton.text(groupByCategory ? 'Filter by Month' : 'Filter by Category');
     });
 
     function showExpenses() {
@@ -46,17 +46,15 @@ $(document).ready(function () {
         let grandTotal = 0;
 
         // Group expenses by category and calculate the total for each category
-        expenses.forEach(expense => {
+        expenses.forEach((expense, index) => {
             if (!categories[expense.category]) {
                 categories[expense.category] = { total: 0, expenses: [] };
             }
-            categories[expense.category].expenses.push(expense);
+            categories[expense.category].expenses.push({ ...expense, index });
             categories[expense.category].total += parseInt(expense.amount);
-            
         });
 
         // Display grouped by category
-        console.log(Object.keys(categories))
         Object.keys(categories).forEach(category => {
             const categorySection = $('<div></div>').addClass('bg-white p-4 rounded-lg shadow-md');
             const categoryTitle = $('<h3></h3>').addClass('text-xl font-semibold text-blue-800').text(category);
@@ -64,9 +62,19 @@ $(document).ready(function () {
 
             const expenseList = $('<ul></ul>').addClass('space-y-2');
             categories[category].expenses.forEach(expense => {
-                const expenseItem = $('<li></li>').addClass('flex justify-between items-center p-2 bg-gray-100 rounded-lg')
-                    .text(`${expense.description} - ${expense.amount} RS`)
-                    .append(`<span class="text-sm text-gray-500">${expense.date}</span>`);
+                const expenseItem = $('<li></li>').addClass('flex justify-between items-center p-2 bg-gray-100 rounded-lg');
+
+                // Expense text
+                const expenseText = $('<span></span>').text(`${expense.description} - ${expense.amount} RS`);
+
+                // Delete button
+                const deleteButton = $('<button></button>')
+                    .addClass('ml-4 bg-red-500 text-white px-2 py-1 rounded')
+                    .text('Delete')
+                    .click(() => deleteExpense(expense.index));
+
+                expenseItem.append(expenseText);
+                expenseItem.append(deleteButton);
                 expenseList.append(expenseItem);
             });
 
@@ -83,9 +91,9 @@ $(document).ready(function () {
         });
 
         // Display the grand total
-        const grandTotalSection = $('<div></div>').addClass('bg-white p-4 rounded-lg shadow-md ');
+        const grandTotalSection = $('<div></div>').addClass('bg-white p-4 rounded-lg shadow-md');
         const grandTotalTitle = $('<h3></h3>').addClass('text-xl font-semibold text-blue-800').text('Grand Total');
-        const grandTotalAmount = $('<p></p>').addClass('text-lg font-bold ').text(`${grandTotal} RS`);
+        const grandTotalAmount = $('<p></p>').addClass('text-lg font-bold').text(`${grandTotal} RS`);
         grandTotalSection.append(grandTotalTitle);
         grandTotalSection.append(grandTotalAmount);
         expensesContainer.append(grandTotalSection);
@@ -96,15 +104,14 @@ $(document).ready(function () {
         let grandTotal = 0;
 
         // Group expenses by month and calculate the total for each month
-        expenses.forEach(expense => {
+        expenses.forEach((expense, index) => {
             const month = new Date(expense.date).toLocaleString('default', { month: 'long', year: 'numeric' });
             if (!months[month]) {
                 months[month] = { total: 0, expenses: [] };
             }
-            months[month].expenses.push(expense);
+            months[month].expenses.push({ ...expense, index });
             months[month].total += parseInt(expense.amount);
         });
-        console.log(months)
 
         // Display grouped by month
         Object.keys(months).forEach(month => {
@@ -114,9 +121,19 @@ $(document).ready(function () {
 
             const expenseList = $('<ul></ul>').addClass('space-y-2');
             months[month].expenses.forEach(expense => {
-                const expenseItem = $('<li></li>').addClass('flex justify-between items-center p-2 bg-gray-100 rounded-lg')
-                    .text(`${expense.description} - ${expense.amount} RS`)
-                    .append(`<span class="text-sm text-gray-500">${expense.date}</span>`);
+                const expenseItem = $('<li></li>').addClass('flex justify-between items-center p-2 bg-gray-100 rounded-lg');
+
+                // Expense text
+                const expenseText = $('<span></span>').text(`${expense.description} - ${expense.amount} RS`);
+
+                // Delete button
+                const deleteButton = $('<button></button>')
+                    .addClass('ml-4 bg-red-500 text-white px-2 py-1 rounded')
+                    .text('Delete')
+                    .click(() => deleteExpense(expense.index));
+
+                expenseItem.append(expenseText);
+                expenseItem.append(deleteButton);
                 expenseList.append(expenseItem);
             });
 
@@ -139,5 +156,16 @@ $(document).ready(function () {
         grandTotalSection.append(grandTotalTitle);
         grandTotalSection.append(grandTotalAmount);
         expensesContainer.append(grandTotalSection);
+    }
+
+    function deleteExpense(index) {
+        // Remove the selected expense
+        expenses.splice(index, 1);
+
+        // Update localStorage
+        localStorage.setItem('expenses', JSON.stringify(expenses));
+
+        // Refresh the display
+        showExpenses();
     }
 });
