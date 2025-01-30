@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracking App</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+
+    </style>
+</head>
+<body class="bg-gray-100  flex flex-col items-center ">
+
+    <!-- Navbar -->
+    <nav class="w-full bg-blue-600 text-white shadow-lg p-3">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Expense Tracker</h1>
+            <a href="dashboard.html" target="_blank" class="bg-white text-blue-600 font-bold py-2 px-4 rounded-lg shadow hover:bg-gray-100 transition duration-300">Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="w-full max-w-xl mt-8">
+        <!-- Form Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Add Expense</h2>
+            <form id="expenseForm" class="space-y-4">
+                <div>
+                    <label for="amount" class="block text-gray-700 font-semibold">Amount (RS)</label>
+                    <input type="number" id="amount" name="amount" placeholder="Enter amount" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label for="category" class="block text-gray-700 font-semibold">Category</label>
+                    <select id="category" name="category" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+                        
+                    </select>
+                </div>
+                <div>
+                    <label for="description" class="block text-gray-700 font-semibold">Description</label>
+                    <input type="text" id="description" name="description" placeholder="Enter description" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label for="date" class="block text-gray-700 font-semibold">Date</label>
+                    <input type="date" id="date" name="date" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+                </div>
+                <button id="btnSubmit" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Add Expense
+                </button>
+            </form>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-between">
+            <button id="addCategory" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">New Category</button>
+            <button id="deleteLocalData" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Delete Data</button>
+        </div>
+
+      
+
+        
+
+        
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2"></div>
+
+    <script src="scripts/script.js"></script>
+</body>
+</html>
