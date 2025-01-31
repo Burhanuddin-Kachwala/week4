@@ -1,4 +1,24 @@
 $(document).ready(function () {
+    document.getElementById('date').addEventListener('input', function () {
+        const selectedDate = new Date(this.value);
+        const today = new Date();
+        
+      
+        today.setHours(0, 0, 0, 0);
+        
+        if (selectedDate > today) {
+            document.getElementById('dateError').classList.remove('hidden'); // Show error message
+            this.value = ''; // Clear the invalid date
+        } else {
+            document.getElementById('dateError').classList.add('hidden'); // Hide error message
+        }
+    });
+    document.getElementById('amount').addEventListener('input', function () {
+        if (this.value < 0) {
+            this.value = 0;
+        }
+    });
+
     let category = JSON.parse(localStorage.getItem('categories')) || ['Food', 'Transport', 'Loans', 'Entertainment', 'Shopping'];
 
     // Function to update the category select options
@@ -41,7 +61,7 @@ $(document).ready(function () {
         }
     });
 
-    var total = 0;
+    // var total = 0;
 
     // Adding data on click of submit button
     $('#btnSubmit').click(function (event) {
@@ -57,11 +77,11 @@ $(document).ready(function () {
         let date = $('#date').val();
 
         if (!amount || isNaN(amount)) {
-            showToast('Invalid amount', 0);
+            showToast('Enter Proper Amount', 0);
             return;
         }
 
-        total += parseInt(amount);
+        // total += parseInt(amount);
 
         let temp = {
             amount: amount,
@@ -92,7 +112,7 @@ $(document).ready(function () {
 
         console.log(localStorage.getItem('expenses'));
 
-        $('#totalAmount').text(total + ": RS").addClass('text-success text-2xl font-bold');
+        // $('#totalAmount').text(total + ": RS").addClass('text-success text-2xl font-bold');
 
         showToast('Expense added successfully', 1);
         clearForm();
