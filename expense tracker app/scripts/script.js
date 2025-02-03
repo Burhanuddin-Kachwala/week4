@@ -89,7 +89,6 @@ $(document).ready(function () {
             category: category,
             date: date
         };
-
         // Fix: Ensure correct parsing before storing data
         let expenses = [];
         let storedData = localStorage.getItem('expenses') || [];
@@ -110,7 +109,7 @@ $(document).ready(function () {
         // Store updated array back to localStorage
         localStorage.setItem('expenses', JSON.stringify(expenses));
 
-        console.log(localStorage.getItem('expenses'));
+       // console.log(localStorage.getItem('expenses'));
 
         // $('#totalAmount').text(total + ": RS").addClass('text-success text-2xl font-bold');
 
@@ -163,8 +162,8 @@ $(document).ready(function () {
         }
 
         // If data exists, format and show it
-        let parsedData = JSON.parse(storedData);
-        $('#expenses').text(JSON.stringify(parsedData)).removeClass('text-gray-500 italic text-red-500');
+        // let parsedData = JSON.parse(storedData);
+        // $('#expenses').text(JSON.stringify(parsedData)).removeClass('text-gray-500 italic text-red-500');
     }
 
     // Function to clear form
